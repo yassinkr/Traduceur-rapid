@@ -1,50 +1,193 @@
-# Welcome to your Expo app 👋
+# Traducteur Rapide
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native translation app built with Expo and TypeScript that provides secure activation and translation services.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Secure Activation**: One-time activation with key storage using Expo SecureStore
+- **Multi-language Translation**: Support for French, English, and Arabic
+- **Copy & Share**: Easy sharing and clipboard functionality for translations
+- **Offline Storage**: Persistent activation state
+- **Modern UI**: Clean and intuitive user interface
+- **Error Handling**: Comprehensive error states and user feedback
 
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (v16 or later)
+- Expo CLI (`npm install -g @expo/cli`)
+- iOS Simulator or Android Emulator (or physical device with Expo Go)
+
+### Installation
+
+1. **Clone and install dependencies**:
    ```bash
    npm install
    ```
 
-2. Start the app
-
+2. **Configure environment variables**:
    ```bash
-   npx expo start
+   cp .env.example .env
+   ```
+   Edit `.env` and add your API base URL:
+   ```
+   API_BASE_URL=https://your-api-backend.com
    ```
 
-In the output, you'll find options to open the app in a
+3. **Update app configuration**:
+   Edit `app.json` and add the environment variable:
+   ```json
+   {
+     "expo": {
+       "extra": {
+         "API_BASE_URL": "https://your-api-backend.com"
+       }
+     }
+   }
+   ```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Running the App
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
 
-## Get a fresh project
+2. **Choose your platform**:
+   - Press `i` for iOS Simulator
+   - Press `a` for Android Emulator
+   - Scan QR code with Expo Go app on physical device
 
-When you're ready, run:
+## API Endpoints
 
-```bash
-npm run reset-project
+Your backend should implement these endpoints:
+
+### POST /api/activate
+Activates the app with a provided key.
+
+**Request**:
+```json
+{
+  "key": "activation-key-here"
+}
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+**Response**:
+```json
+{
+  "success": true,
+  "message": "Activation successful",
+  "userId": "user-id",
+  "expiresAt": "2024-12-31T23:59:59Z"
+}
+```
 
-## Learn more
+### POST /api/translate
+Translates text between languages.
 
-To learn more about developing your project with Expo, look at the following resources:
+**Request**:
+```json
+{
+  "text": "Hello world",
+  "source": "en",
+  "target": "fr"
+}
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+**Response**:
+```json
+{
+  "success": true,
+  "translatedText": "Bonjour le monde"
+}
+```
 
-## Join the community
+## Project Structure
 
-Join our community of developers creating universal apps.
+```
+├── screens/                 # Screen components
+│   ├── ActivationScreen.tsx # Initial activation screen
+│   └── TranslatorScreen.tsx # Main translation interface
+├── components/              # Reusable UI components
+│   ├── LanguagePicker.tsx  # Language selection component
+│   └── LoadingSpinner.tsx  # Loading indicator
+├── services/               # Business logic and API calls
+│   ├── api.ts             # API service layer
+│   └── storage.ts         # Secure storage management
+├── types/                 # TypeScript type definitions
+│   └── index.ts          # Shared interfaces and types
+└── app/                  # Expo Router structure
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Features Implemented
+
+✅ **Secure Activation Flow**
+- Key-based activation with backend verification
+- Secure storage using Expo SecureStore
+- Automatic expiration handling
+
+✅ **Translation Interface**
+- Language selection (French, English, Arabic)
+- Text input with character limit
+- Real-time translation via API calls
+- Language swap functionality
+
+✅ **User Experience**
+- Copy to clipboard functionality
+- Share translated text
+- Loading states and error handling
+- Clean, modern UI design
+
+✅ **Technical Requirements**
+- Full TypeScript implementation
+- Modular code organization
+- React Navigation integration
+- Environment variable support
+- Error handling and loading states
+
+## Dependencies
+
+- **@react-navigation/native**: Navigation framework
+- **@react-navigation/stack**: Stack navigator
+- **expo-secure-store**: Secure key-value storage
+- **expo-clipboard**: Clipboard functionality
+- **expo-sharing**: Native sharing capabilities
+- **expo-constants**: Access to app configuration
+- **react-native-paper**: UI components (optional)
+
+## Security Features
+
+- Activation keys stored securely using Expo SecureStore
+- API calls with error handling and timeout management
+- Input validation and sanitization
+- Automatic session expiration
+
+## Development Notes
+
+- The app checks activation status on startup
+- Failed activations clear stored data automatically
+- Translation requests include error recovery
+- All user inputs are validated before API calls
+
+## Building for Production
+
+1. **Configure app signing** in `app.json`
+2. **Set production API endpoints** in environment variables
+3. **Build the app**:
+   ```bash
+   expo build:ios
+   expo build:android
+   ```
+
+## Support
+
+For issues or questions:
+1. Check the console logs for detailed error messages
+2. Verify API endpoints are accessible
+3. Ensure activation keys are valid
+4. Check network connectivity
+
+---
+
+**Note**: This app requires a backend API that implements the activation and translation endpoints. Make sure your API is configured and accessible before running the app.
