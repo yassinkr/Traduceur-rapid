@@ -103,22 +103,6 @@ Translates text between languages.
 }
 ```
 
-## Project Structure
-
-```
-├── screens/                 # Screen components
-│   ├── ActivationScreen.tsx # Initial activation screen
-│   └── TranslatorScreen.tsx # Main translation interface
-├── components/              # Reusable UI components
-│   ├── LanguagePicker.tsx  # Language selection component
-│   └── LoadingSpinner.tsx  # Loading indicator
-├── services/               # Business logic and API calls
-│   ├── api.ts             # API service layer
-│   └── storage.ts         # Secure storage management
-├── types/                 # TypeScript type definitions
-│   └── index.ts          # Shared interfaces and types
-└── app/                  # Expo Router structure
-```
 
 ## Features Implemented
 
@@ -154,7 +138,6 @@ Translates text between languages.
 - **expo-clipboard**: Clipboard functionality
 - **expo-sharing**: Native sharing capabilities
 - **expo-constants**: Access to app configuration
-- **react-native-paper**: UI components (optional)
 
 ## Security Features
 
